@@ -1,1 +1,1 @@
-let appName = "Coding Events";
+let appName = "Coding Events of the Day :)";

@@ -21,17 +21,24 @@ public class EventController {
 
     @GetMapping
     public String displayAllEvents(Model model) {
+//        List<String> events = new ArrayList<>();
+//        events.add("Code with Pride");
+//        events.add("Another Fun Event");
+//        events.add("One More Awesome Event");
+//        events.add("Ohaha");
         model.addAttribute("title", "All Events");
         model.addAttribute("events", events);
         return "events/index";
     }
 
+    // lives at /events/create
     @GetMapping("create")
     public String displayCreateEventForm(Model model) {
         model.addAttribute("title", "Create Event");
         return "events/create";
     }
 
+    // also lives at /events/create which is ok, since they handle different events
     @PostMapping("create")
     public String processCreateEventForm(@RequestParam String eventName) {
         events.add(eventName);
