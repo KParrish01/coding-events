@@ -1,11 +1,10 @@
 package org.launchcode.codingevents.controllers;
 
+import org.launchcode.codingevents.data.EventData;
+import org.launchcode.codingevents.models.Event;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,9 @@ import java.util.List;
 @RequestMapping("events")
 public class EventController {
 
-    private static List<String> events = new ArrayList<>();
+//    private static List<Event> events = new ArrayList<>(); // that's how we stored data before we had EventData class
 
+    // adds typed in events to the list of events:
     @GetMapping
     public String displayAllEvents(Model model) {
 //        List<String> events = new ArrayList<>();
@@ -27,8 +27,8 @@ public class EventController {
 //        events.add("One More Awesome Event");
 //        events.add("Ohaha");
         model.addAttribute("title", "All Events");
-        model.addAttribute("events", events);
-        return "events/index";
+        model.addAttribute("events", EventData.getAll());
+        return "events/index"; // with model addition, file "events/index" needed to change (go look at it!)
     }
 
     // lives at /events/create
@@ -38,11 +38,38 @@ public class EventController {
         return "events/create";
     }
 
+//    // also lives at /events/create which is ok, since they handle different events // >>>refactored into Model Binding below<<<
+//    @PostMapping("create")
+//    public String processCreateEventForm(@RequestParam String eventName,
+//                                         @RequestParam String eventDescription) {
+//        EventData.add(new Event(eventName, eventDescription));
+//        return "redirect:/events";  // sends back to root "events" and can therefore also be written like "redirect:" only
+//    }
+//
+
     // also lives at /events/create which is ok, since they handle different events
     @PostMapping("create")
-    public String processCreateEventForm(@RequestParam String eventName) {
-        events.add(eventName);
-        return "redirect:";
+    public String processCreateEventForm(@ModelAttribute Event newEvent) {
+        EventData.add(newEvent);
+        return "redirect:/events";  // sends back to root "events" and can therefore also be written like "redirect:" only
+    }
+
+    @GetMapping("delete")
+    public String displayDeleteEventForm(Model model) {
+        model.addAttribute("title", "Delete Events");
+        model.addAttribute("events", EventData.getAll());
+        return "events/delete";
+    }
+
+    @PostMapping("delete")
+    public String processDeleteEventsForm(@RequestParam(required = false) int[] eventIds) {
+
+        if (eventIds !=null) {
+            for (int id : eventIds) {
+                EventData.remove(id);
+            }
+        }
+        return "redirect:/events";
     }
 
 }
