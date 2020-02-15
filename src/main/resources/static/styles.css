@@ -2,3 +2,7 @@ body {
   font-size: 25px;
   color: sienna;
 }
+
+.error {
+color: red
+}

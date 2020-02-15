@@ -4,8 +4,10 @@ import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.models.Event;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class EventController {
     @GetMapping("create")
     public String displayCreateEventForm(Model model) {
         model.addAttribute("title", "Create Event");
+        model.addAttribute(new Event());
         return "events/create";
     }
 
@@ -49,7 +52,13 @@ public class EventController {
 
     // also lives at /events/create which is ok, since they handle different events
     @PostMapping("create")
-    public String processCreateEventForm(@ModelAttribute Event newEvent) {
+    public String processCreateEventForm(@ModelAttribute @Valid Event newEvent,
+                                         Errors errors, Model model) {
+        if(errors.hasErrors()) {
+            model.addAttribute("title", "Create Event");
+//            model.addAttribute("errorMsg", "Bad Data!");
+            return "events/create";
+        }
         EventData.add(newEvent);
         return "redirect:/events";  // sends back to root "events" and can therefore also be written like "redirect:" only
     }
@@ -69,6 +78,24 @@ public class EventController {
                 EventData.remove(id);
             }
         }
+        return "redirect:/events";
+    }
+
+//    @GetMapping("edit/{eventId}")
+    @GetMapping("edit/{eventId=event.id}")
+//    public String displayEditForm(Model model, @PathVariable int eventId) {
+    public String displayEditForm(Model model, @PathVariable int eventId) {
+        // controller code will go here //
+        model.addAttribute("title", "Edit Events NAME (id=ID");
+        model.addAttribute("events", EventData.getById(eventId));
+        return "events/edit";
+    }
+
+    @PostMapping("edit/{eventId=event.id}")
+    public String processEditForm(int eventId, String name, String description, Model model) {
+        //controller code will go here:
+//        EventData.getById(eventId);
+        model.addAttribute("events", EventData.getById(eventId));
         return "redirect:/events";
     }
 

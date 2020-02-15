@@ -8,6 +8,7 @@ public class CodingEventsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CodingEventsApplication.class, args);
+		System.out.println("BootRun ready! Go play!");
 	}
 
 }
