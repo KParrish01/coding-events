@@ -82,20 +82,22 @@ public class EventController {
     }
 
 //    @GetMapping("edit/{eventId}")
-    @GetMapping("edit/{eventId=event.id}")
+//    @GetMapping("edit/{eventId=event.id}")
+    @GetMapping("edit/{id}")
 //    public String displayEditForm(Model model, @PathVariable int eventId) {
-    public String displayEditForm(Model model, @PathVariable int eventId) {
+    public String displayEditForm(Model model, @RequestParam int id) {
         // controller code will go here //
-        model.addAttribute("title", "Edit Events NAME (id=ID");
-        model.addAttribute("events", EventData.getById(eventId));
+        model.addAttribute("title", "Edit Event " + "NAME needs to feed in here :| " + " (id=" + id + " ).");
+        model.addAttribute("events", EventData.getById(id));
+        System.out.println("Checking in at events/edit/{eventId}");
         return "events/edit";
     }
 
     @PostMapping("edit/{eventId=event.id}")
-    public String processEditForm(int eventId, String name, String description, Model model) {
+    public String processEditForm(@ModelAttribute Event eventById, @RequestParam int id, Model model) {
         //controller code will go here:
-//        EventData.getById(eventId);
-        model.addAttribute("events", EventData.getById(eventId));
+        EventData.getById(id);
+//        model.addAttribute("events", EventData.getById(id));
         return "redirect:/events";
     }
 

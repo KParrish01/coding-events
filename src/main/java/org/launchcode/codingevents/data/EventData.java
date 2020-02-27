@@ -23,7 +23,7 @@ public class EventData {  // it's a static class, really, because all methods be
     }
 
     // 3. add event:
-    public static void add(Event event) {
+    public static void add(Event event) {  // *****<<<<<This is what I need to keep track of inputted data!!!! *******
         events.put(event.getId(), event);
     }
 

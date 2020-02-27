@@ -1,22 +1,18 @@
 package org.launchcode.codingevents.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
-public class Event {   // Class added in lesson 12.2.1.
+@Entity
+public class Event {                               // Class added in lesson 12.2.1.
 
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
+    @Id
+    @GeneratedValue
     private int id;
-    private static int nextId = 1;
+//    private static int nextId = 1;
 
     @NotBlank(message="Name is required!")
     @Size(min = 3, max = 50, message = " Name must be 3 to 50 characters.")
@@ -29,19 +25,42 @@ public class Event {   // Class added in lesson 12.2.1.
     @Email(message = "Invalid email: Try again!")
     private String contactEmail;
 
-    public Event(String name, String description, String contactEmail) {
-        this();
+    //Below field from exercise 13.5. (1 of 4)
+    @NotBlank(message="Location must be entered!")
+    @Size( max = 40, message="Location field too long, limit to 40 characters")
+    private String location;
+
+    //Below field from exercise 13.5. (2 of 4)
+    @AssertTrue(message="Registration is needed.")
+    private Boolean registrationNeeded;
+
+    //Below field from exercise 13.5. (3 of 4)
+//    @NotBlank(message="Can't be blank: At least one attendee needed to register.")
+    @Min(1)
+    private int numberAttendees;
+
+    //Below field from exercise 13.5. (3 of 4)
+    @AssertFalse(message="You cannot register if you are not funny!")
+    private Boolean notFunny;
+
+    public Event(String name, String description, String contactEmail, String location, Boolean registrationNeeded, int numberAttendees, Boolean notFunny) {
+//        this();
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
 //        this.id = nextId;  // was replaced by "public Event(){id...}" that is fed in by "this()"
 //        nextId++;
 //        this.id=id;
+        this.location=location;         // Variables fro Exercise 13
+        this.registrationNeeded=registrationNeeded;
+        this.numberAttendees=numberAttendees;
+        this.notFunny=notFunny;
     }
 
+    // Counter turns into persistent constructor:
     public Event(){
-        this.id = nextId;
-        nextId++;
+//        this.id = nextId;
+//        nextId++;
     }
 
     public String getName() {
@@ -61,10 +80,51 @@ public class Event {   // Class added in lesson 12.2.1.
     }
 
 
-
     public int getId() {
         return id;
     }
+
+    //Getters and Setters for 4 variables in Exercise 13:
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public Boolean getRegistrationNeeded() {
+        return registrationNeeded;
+    }
+
+    public void setRegistrationNeeded(Boolean registrationNeeded) {
+        this.registrationNeeded = registrationNeeded;
+    }
+
+    public int getNumberAttendees() {
+        return numberAttendees;
+    }
+
+    public void setNumberAttendees(int numberAttendees) {
+        this.numberAttendees = numberAttendees;
+    }
+
+    public Boolean getNotFunny() {
+        return notFunny;
+    }
+
+    public void setNotFunny(Boolean notFunny) {
+        this.notFunny = notFunny;
+    }
+
 
     @Override
     public String toString() {

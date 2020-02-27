@@ -15,17 +15,42 @@
         <th>ID</th>
         <th>Name</th>
         <th>Description</th>
+
+        <!--        From exercise 13.5.:-->
         <th>Contact Email</th>
+        <th>Location</th>
+        <th>Number of Attendees</th>
+        <th>Registration Needed</th>
+        <th>Funny?</th>
     </tr>
     </thead>
 <!--    <th:block th:each="event : ${events}">-->
     <tr th:each="event : ${events}">
 <!--        <li th:text="${event}"></li>        -->
 <!--        in lesson 12.2.1. we had to change text below from string "event" to Event class' "event.name":-->
-        <td th:text="${event.id}" th:name="eventId"></td>
-        <td th:text="${event.name}"></td>
-        <td th:text="${event.description}"></td>
-        <td th:text="${event.contactEmail}"></td>
+
+<!--        <td type="text" th:text=field="${event.id}"></td>-->
+<!--        <td type="text" th:field="${event.name}"></td>-->
+<!--        <td type="text" th:field="${event.description}"></td>-->
+<!--        <td type="text" th:field="${event.contactEmail}"></td>-->
+
+<!--        &lt;!&ndash;        From exercise 13.5.:&ndash;&gt;-->
+<!--        <td type="text" th:field="${event.location}"></td>-->
+<!--        <td type="text" th:field="${event.numberAttendees}"></td>-->
+<!--        <td type="text" th:field="${event.registrationNeeded}" ></td>-->
+<!--        <td type="text" th:field="${event.notFunny}"></td>-->
+        <td th:text="${event.id}" name="id"></td>
+        <td th:text="${event.name}" name="name"></td>
+        <td th:text="${event.description}" name="description"></td>
+        <td th:text="${event.contactEmail}" name="contactEmail"></td>
+
+<!--        From exercise 13.5.:-->
+        <td th:text="${event.location}" name="location"></td>
+        <td th:text="${event.numberAttendees}" name="numberAttendees"></td>
+        <td th:text="${event.registrationNeeded}" name="registrationNeeded"></td>
+        <td th:text="${event.notFunny}" name="notFunny"></td>
+
+<!--        From exercise  12.5.:-->
         <td>
             <a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
         </td>
