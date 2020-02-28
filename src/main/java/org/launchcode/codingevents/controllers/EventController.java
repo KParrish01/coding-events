@@ -1,7 +1,9 @@
 package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventData;
+import org.launchcode.codingevents.data.EventRepository;
 import org.launchcode.codingevents.models.Event;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,6 +20,11 @@ import java.util.List;
 @RequestMapping("events")
 public class EventController {
 
+    @Autowired
+    private EventRepository eventRepository;
+
+    // EventRepository makes available via CrudRepository: findAll, save, findById
+
 //    private static List<Event> events = new ArrayList<>(); // that's how we stored data before we had EventData class
 
     // adds typed in events to the list of events:
@@ -29,7 +36,8 @@ public class EventController {
 //        events.add("One More Awesome Event");
 //        events.add("Ohaha");
         model.addAttribute("title", "All Events");
-        model.addAttribute("events", EventData.getAll());
+//        model.addAttribute("events", EventData.getAll());
+        model.addAttribute("events", eventRepository.findAll());
         return "events/index"; // with model addition, file "events/index" needed to change (go look at it!)
     }
 
@@ -59,14 +67,16 @@ public class EventController {
 //            model.addAttribute("errorMsg", "Bad Data!");
             return "events/create";
         }
-        EventData.add(newEvent);
+//        EventData.add(newEvent);
+        eventRepository.save(newEvent);
         return "redirect:/events";  // sends back to root "events" and can therefore also be written like "redirect:" only
     }
 
     @GetMapping("delete")
     public String displayDeleteEventForm(Model model) {
         model.addAttribute("title", "Delete Events");
-        model.addAttribute("events", EventData.getAll());
+//        model.addAttribute("events", EventData.getAll());
+        model.addAttribute("events", eventRepository.findAll());
         return "events/delete";
     }
 
@@ -75,28 +85,35 @@ public class EventController {
 
         if (eventIds !=null) {
             for (int id : eventIds) {
-                EventData.remove(id);
+//                EventData.remove(id);
+                eventRepository.deleteById(id);
             }
         }
         return "redirect:/events";
     }
 
+
+///>>>>******* THIS NEEDS FIXING: Exercise 12.5.: How to feed 'int id'  in here from 'events/index' ????******<<<<<:
 //    @GetMapping("edit/{eventId}")
 //    @GetMapping("edit/{eventId=event.id}")
+//    @GetMapping("edit/{event.id}")
     @GetMapping("edit/{id}")
 //    public String displayEditForm(Model model, @PathVariable int eventId) {
-    public String displayEditForm(Model model, @RequestParam int id) {
+//    public String displayEditForm(Model model, @RequestParam int id) {
+    public String displayEditForm(Model model, @PathVariable int id) {
         // controller code will go here //
         model.addAttribute("title", "Edit Event " + "NAME needs to feed in here :| " + " (id=" + id + " ).");
-        model.addAttribute("events", EventData.getById(id));
-        System.out.println("Checking in at events/edit/{eventId}");
+//        model.addAttribute("events", EventData.getById(id));
+        model.addAttribute("events", eventRepository.findById(id));
+        System.out.println("Checking in at events/edit/{id}");
         return "events/edit";
     }
 
     @PostMapping("edit/{eventId=event.id}")
     public String processEditForm(@ModelAttribute Event eventById, @RequestParam int id, Model model) {
         //controller code will go here:
-        EventData.getById(id);
+//        EventData.getById(id);
+        eventRepository.findById(id);
 //        model.addAttribute("events", EventData.getById(id));
         return "redirect:/events";
     }

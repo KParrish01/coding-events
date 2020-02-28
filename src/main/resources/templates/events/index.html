@@ -44,15 +44,15 @@
         <td th:text="${event.description}" name="description"></td>
         <td th:text="${event.contactEmail}" name="contactEmail"></td>
 
-<!--        From exercise 13.5.:-->
+<!--        From exercise 13.5. - additional fields for table and to show errors/validation:-->
         <td th:text="${event.location}" name="location"></td>
         <td th:text="${event.numberAttendees}" name="numberAttendees"></td>
         <td th:text="${event.registrationNeeded}" name="registrationNeeded"></td>
         <td th:text="${event.notFunny}" name="notFunny"></td>
 
-<!--        From exercise  12.5.:-->
+<!--        From exercise  12.5. - to make edit *****>>>> need to correct this so 'RequestParam id int' fed into controller!!!<<<****:-->
         <td>
-            <a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
+            <a th:href="@{/events/edit/{id}(id=${event.id})}" th:value="${event.id}" name="id">Edit</a>
         </td>
     </tr>
 <!--    </th:block>-->
