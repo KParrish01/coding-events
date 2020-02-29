@@ -95,10 +95,11 @@ public class EventController {
 //    @GetMapping("edit/{eventId}")
 //    @GetMapping("edit/{eventId=event.id}")
 //    @GetMapping("edit/{event.id}")
-    @GetMapping("edit/{id}")
+    @GetMapping("edit/{id}{name}")
 //    public String displayEditForm(Model model, @PathVariable int eventId) {
 //    public String displayEditForm(Model model, @RequestParam int id) {
-    public String displayEditForm(Model model, @RequestParam int id, @RequestParam String name) {
+    public String displayEditForm(Model model, @PathVariable int id, @PathVariable String name) {
+//    public String displayEditForm(Model model, @RequestParam int id, @RequestParam String name) {
         // controller code will go here //
         model.addAttribute("title", "Edit " + name + " (id=" + id +")");
 //        model.addAttribute("events", EventData.getById(id));
@@ -108,7 +109,8 @@ public class EventController {
         return "events/edit";
     }
 
-    @PostMapping("edit/{eventId=event.id}")
+//    @PostMapping("edit/{eventId=event.id}")
+@PostMapping("edit/{id}")
     public String processEditForm(@ModelAttribute Event eventById, @RequestParam int id, Model model) {
         //controller code will go here:
 //        EventData.getById(id);
