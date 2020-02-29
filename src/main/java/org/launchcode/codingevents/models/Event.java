@@ -8,12 +8,13 @@ import java.util.Objects;
 
 
 @Entity
-public class Event {                               // Class added in lesson 12.2.1.
+public class Event extends AbstractEntity {                               // Class added in lesson 12.2.1.
 
-    @Id
-    @GeneratedValue
-    private int id;
-//    private static int nextId = 1;
+    // Moved to AbstractEntity in 17.5.2.
+//    @Id
+//    @GeneratedValue
+//    private int id;
+////    private static int nextId = 1;
 
     @NotBlank(message="Name is required!")
     @Size(min = 3, max = 50, message = " Name must be 3 to 50 characters.")
@@ -81,9 +82,9 @@ public class Event {                               // Class added in lesson 12.2
     }
 
 
-    public int getId() {
-        return id;
-    }
+//    public int getId() {
+//        return id;
+//    }
 
     //Getters and Setters for 4 variables in Exercise 13:
     public String getLocation() {
@@ -132,17 +133,18 @@ public class Event {                               // Class added in lesson 12.2
         return name;        // <<<< KSP question: Why do we only need "name" in toString and not "description"?
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id == event.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);   // From video:: ..."we won't use them for now, but as a best practice, equals and hashCode method should always be there"
-    }
+    //Moved to AbstractClass in 17.5.2.2.
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Event event = (Event) o;
+//        return id == event.id;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);   // From video:: ..."we won't use them for now, but as a best practice, equals and hashCode method should always be there"
+//    }
 }
 
