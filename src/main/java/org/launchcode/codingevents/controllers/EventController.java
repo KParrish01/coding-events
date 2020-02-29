@@ -56,7 +56,6 @@ public class EventController {
 //        EventData.add(new Event(eventName, eventDescription));
 //        return "redirect:/events";  // sends back to root "events" and can therefore also be written like "redirect:" only
 //    }
-//
 
     // also lives at /events/create which is ok, since they handle different events
     @PostMapping("create")
@@ -92,7 +91,6 @@ public class EventController {
         return "redirect:/events";
     }
 
-
 ///>>>>******* THIS NEEDS FIXING: Exercise 12.5.: How to feed 'int id'  in here from 'events/index' ????******<<<<<:
 //    @GetMapping("edit/{eventId}")
 //    @GetMapping("edit/{eventId=event.id}")
@@ -100,11 +98,12 @@ public class EventController {
     @GetMapping("edit/{id}")
 //    public String displayEditForm(Model model, @PathVariable int eventId) {
 //    public String displayEditForm(Model model, @RequestParam int id) {
-    public String displayEditForm(Model model, @PathVariable int id) {
+    public String displayEditForm(Model model, @RequestParam int id, @RequestParam String name) {
         // controller code will go here //
-        model.addAttribute("title", "Edit Event " + "NAME needs to feed in here :| " + " (id=" + id + " ).");
+        model.addAttribute("title", "Edit " + name + " (id=" + id +")");
 //        model.addAttribute("events", EventData.getById(id));
-        model.addAttribute("events", eventRepository.findById(id));
+//        model.addAttribute("events", eventRepository.findById(id));
+        model.addAttribute("events", eventRepository.findAll());
         System.out.println("Checking in at events/edit/{id}");
         return "events/edit";
     }
@@ -115,6 +114,7 @@ public class EventController {
 //        EventData.getById(id);
         eventRepository.findById(id);
 //        model.addAttribute("events", EventData.getById(id));
+        /* 12.9.b Update the name and description of the event with the appropriate model setter methods*/
         return "redirect:/events";
     }
 

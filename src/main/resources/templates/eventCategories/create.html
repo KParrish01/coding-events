@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<header th:replace="fragments
+
+
+:: header"></header>
+
+<!--<p th:text="${errorMsg}" style="color: red"></p>-->
+
+<form method="post">
+    <div class="form-group">
+    <label>Name
+<!--        <input type="text" name="eventCategoryName" class="form-control"> Had to be refactored to match Event class attributes-->
+<!--        <input type="text" name="name" class="form-control">-->
+        <input th:field="${eventCategory.name}" class="form-control">
+        <p class="error" th:errors="${eventCategory.name}"></p>
+    </label>
+    </div>
+
+<!--    <div class="form-group">-->
+<!--        <label>Description-->
+<!--&lt;!&ndash;            <input type="text" name="eventCategoryDescription" class="form-control"> Had to be refactored to match Event class attributes&ndash;&gt;-->
+<!--            <input th:field="${eventCategory.description}" class="form-control">-->
+<!--            <p class="error" th:errors="${eventCategory.description}"></p>-->
+<!--        </label>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <label>Contact Email-->
+<!--&lt;!&ndash;            <input type="text" name="contactEmail" class="form-control">&ndash;&gt;-->
+<!--            <input th:field="${eventCategory.contactEmail}"  class="form-control">-->
+<!--            <p class="error" th:errors="${eventCategory.contactEmail}"></p>-->
+<!--        </label>-->
+<!--    </div>-->
+
+<!--&lt;!&ndash;    The below 4 are from exercise 13:&ndash;&gt;-->
+<!--    <div class="form-group">-->
+<!--        <label>Location-->
+<!--            &lt;!&ndash;            <input type="text" name="contactEmail" class="form-control">&ndash;&gt;-->
+<!--            <input th:field="${eventCategory.location}"  class="form-control">-->
+<!--            <p class="error" th:errors="${eventCategory.location}"></p>-->
+<!--        </label>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <label>Number of Attendees-->
+<!--            &lt;!&ndash;            <input type="text" name="contactEmail" class="form-control">&ndash;&gt;-->
+<!--            <input th:field="${eventCategory.numberAttendees}"  class="form-control">-->
+<!--            <p class="error" th:errors="${eventCategory.numberAttendees}"></p>-->
+<!--        </label>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <label>Registration Needed:-->
+<!--            &lt;!&ndash;            <input type="text" name="contactEmail" class="form-control">&ndash;&gt;-->
+<!--            <input type="checkbox" th:field="${eventCategory.registrationNeeded}"  class="form-control">-->
+<!--            <p class="error" th:errors="${eventCategory.registrationNeeded}"></p>-->
+<!--        </label>-->
+<!--    </div>   <div class="form-group">-->
+<!--    <label>Not Funny?-->
+<!--        &lt;!&ndash;            <input type="text" name="contactEmail" class="form-control">&ndash;&gt;-->
+<!--        <input type="checkbox" th:field="${eventCategory.notFunny}"  class="form-control">-->
+<!--        <p class="error" th:errors="${eventCategory.notFunny}"></p>-->
+<!--    </label>-->
+<!--</div>-->
+
+
+
+    <div class="form-group">
+        <input type="submit" value="Create Category" class="btn btn-success">
+    </div>
+</form>
+
+</body>
+</html>

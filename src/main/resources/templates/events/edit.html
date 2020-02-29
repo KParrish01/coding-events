@@ -8,7 +8,7 @@
 <!--<p th:text="${errorMsg}" style="color: red"></p>-->
 
 <!--TODO: Continue at 12.5.6.a. - >>>I don't fully understand what they mean! :( <<<<<:-->
-<form method="post" th:action="@{/events/edit}">
+<form th:each="event : ${events}" method="post" th:action="@{/events/edit}">
     <div class="form-group">
         <label th:text="${event.name}">Name
             <!--        <input type="text" name="eventName" class="form-control"> Had to be refactored to match Event class attributes-->
@@ -62,10 +62,17 @@
 <!--</div>-->
 
     <div class="form-group">
-        <input type="submit" value="Edit" class="btn btn-success">
+        <a th:href="@{/events/create/{id}(id=${event.id})}" th:value="${event.id}" name="id">Edit</a>
         <input type="hidden" th:value="${event.id}" name="eventId" />
+        <input type="submit" th:value="'Event #' + ${event.id}" class="btn btn-success"/>
+        <input type="submit" value="Edit" class="btn btn-success"/>
     </div>
 </form>
+
+<!--<<<<<<<<<Some test space here:-->
+<!--<tr th:each="category : ${categories}">-->
+<!--    <td th:text="${category.name}">TEST SPACE</td>-->
+<!--</tr>-->
 
 </body>
 </html>

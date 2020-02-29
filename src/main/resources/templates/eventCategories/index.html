@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<header th:replace="fragments :: header"></header>
+
+<!--<h1> All Events</h1>-->
+<p th:unless="${eventCategory} and ${eventCategory.size()}">No eventCategories</p>
+
+<!--<ul>-->
+<table class="table table-striped">
+    <thead>
+    <tr>
+<!--        <th>ID</th>-->
+        <th>Category Name</th>
+<!--        <th>Description</th>-->
+
+<!--        &lt;!&ndash;        From exercise 13.5.:&ndash;&gt;-->
+<!--        <th>Contact Email</th>-->
+<!--        <th>Location</th>-->
+<!--        <th>Number of Attendees</th>-->
+<!--        <th>Registration Needed</th>-->
+<!--        <th>Funny?</th>-->
+    </tr>
+    </thead>
+<!--    <th:block th:each="category : ${categories}">-->
+    <tr th:each="category : ${categories}">
+        <td th:text="${category.name}"></td>
+<!--&lt;!&ndash;        <li th:text="${eventCategory}"></li>        &ndash;&gt;-->
+<!--&lt;!&ndash;        in lesson 12.2.1. we had to change text below from string "eventCategory" to Event class' "eventCategory.name":&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <td type="text" th:text=field="${eventCategory.id}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.name}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.description}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.contactEmail}"></td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        &lt;!&ndash;        From exercise 13.5.:&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.location}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.numberAttendees}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.registrationNeeded}" ></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td type="text" th:field="${eventCategory.notFunny}"></td>&ndash;&gt;-->
+<!--        <td th:text="${eventCategory.id}" name="id"></td>-->
+<!--        <td th:text="${eventCategory.name}" name="name"></td>-->
+<!--        <td th:text="${eventCategory.description}" name="description"></td>-->
+<!--        <td th:text="${eventCategory.contactEmail}" name="contactEmail"></td>-->
+
+<!--&lt;!&ndash;        From exercise 13.5. - additional fields for table and to show errors/validation:&ndash;&gt;-->
+<!--        <td th:text="${eventCategory.location}" name="location"></td>-->
+<!--        <td th:text="${eventCategory.numberAttendees}" name="numberAttendees"></td>-->
+<!--        <td th:text="${eventCategory.registrationNeeded}" name="registrationNeeded"></td>-->
+<!--        <td th:text="${eventCategory.notFunny}" name="notFunny"></td>-->
+
+<!--        From exercise  12.5. - to make edit *****>>>> need to correct this so 'RequestParam id int' fed into controller!!!<<<****:-->
+<!--        <td>-->
+<!--            <a th:href="@{/eventCategorys/edit/{id}(id=${eventCategory.id})}" th:value="${eventCategory.id}" name="id">Edit</a>-->
+<!--        </td>-->
+    </tr>
+<!--    </th:block>-->
+</table>
+<!--</ul>-->
+
+</body>
+</html>
