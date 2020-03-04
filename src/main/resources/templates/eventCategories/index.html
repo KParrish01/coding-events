@@ -26,7 +26,7 @@
     </thead>
 <!--    <th:block th:each="category : ${categories}">-->
     <tr th:each="category : ${categories}">
-        <td th:text="${category.name}"></td>
+        <td><a th:text="${category.name}" th:href="'/events?categoryId=' + ${category.id}"></a></td>
 <!--&lt;!&ndash;        <li th:text="${eventCategory}"></li>        &ndash;&gt;-->
 <!--&lt;!&ndash;        in lesson 12.2.1. we had to change text below from string "eventCategory" to Event class' "eventCategory.name":&ndash;&gt;-->
 

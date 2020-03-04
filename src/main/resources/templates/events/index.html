@@ -15,9 +15,10 @@
         <th>ID</th>
         <th>Name</th>
         <th>Description</th>
+        <th>Contact Email</th>
+        <th>Category</th>
 
         <!--        From exercise 13.5.:-->
-        <th>Contact Email</th>
         <th>Location</th>
         <th>Number of Attendees</th>
         <th>Registration Needed</th>
@@ -41,8 +42,9 @@
 <!--        <td type="text" th:field="${event.notFunny}"></td>-->
         <td th:text="${event.id}" name="id"></td>
         <td th:text="${event.name}" name="name"></td>
-        <td th:text="${event.description}" name="description"></td>
-        <td th:text="${event.contactEmail}" name="contactEmail"></td>
+        <td th:text="${event.eventDetails.description}" name="description"></td>
+        <td th:text="${event.eventDetails.contactEmail}" name="contactEmail"></td>
+        <td th:text="${event.eventCategory.name}" ></td>
 
 <!--        From exercise 13.5. - additional fields for table and to show errors/validation:-->
         <td th:text="${event.location}" name="location"></td>

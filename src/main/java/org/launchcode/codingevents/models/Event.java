@@ -1,8 +1,7 @@
 package org.launchcode.codingevents.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Objects;
 
@@ -20,12 +19,23 @@ public class Event extends AbstractEntity {                               // Cla
     @Size(min = 3, max = 50, message = " Name must be 3 to 50 characters.")
     private String name;
 
-    @Size( max = 500, message = "Description too long 500 character limit")
-    private String description;
+    // Below moved to EventDetail in 18.4.1. and then replaced by below
+//    @Size( max = 500, message = "Description too long 500 character limit")
+//    private String description;
+//
+//    @NotBlank(message ="Email is required!")
+//    @Email(message = "Invalid email: Try again!")
+//    private String contactEmail;
 
-    @NotBlank(message ="Email is required!")
-    @Email(message = "Invalid email: Try again!")
-    private String contactEmail;
+    @OneToOne (cascade = CascadeType.ALL)  // mappes foreign key one way from Event to EventDetails (can be one-directional, or can be set up in EventDetails secondarily to go both ways)
+    @Valid
+    @NotNull
+    private EventDetails eventDetails;
+
+    //Below replaced ENUMS EventType with EventCategory in Chapter 18.2.3.:
+    @ManyToOne
+    @NotNull(message = "Category is required.")
+    private EventCategory eventCategory;
 
     //Below field from exercise 13.5. (1 of 4)
     @NotBlank(message="Location must be entered!")
@@ -45,11 +55,12 @@ public class Event extends AbstractEntity {                               // Cla
     @AssertFalse(message="You cannot register if you are not funny!")
     private Boolean notFunny;
 
-    public Event(String name, String description, String contactEmail, String location, Boolean registrationNeeded, int numberAttendees, Boolean notFunny) {
+    public Event(String name, String description, String contactEmail, EventCategory eventCategory, String location, Boolean registrationNeeded, int numberAttendees, Boolean notFunny) {
 //        this();
         this.name = name;
-        this.description = description;
-        this.contactEmail = contactEmail;
+//        this.description = description;
+//        this.contactEmail = contactEmail;
+        this.eventCategory = eventCategory;
 //        this.id = nextId;  // was replaced by "public Event(){id...}" that is fed in by "this()"
 //        nextId++;
 //        this.id=id;
@@ -73,13 +84,21 @@ public class Event extends AbstractEntity {                               // Cla
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public EventDetails getEventDetails() {
+        return eventDetails;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEventDetails(EventDetails eventDetails) {
+        this.eventDetails = eventDetails;
     }
+
+    //    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
 
 //    public int getId() {
@@ -95,12 +114,20 @@ public class Event extends AbstractEntity {                               // Cla
         this.location = location;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
+//    public String getContactEmail() {
+//        return contactEmail;
+//    }
+//
+//    public void setContactEmail(String contactEmail) {
+//        this.contactEmail = contactEmail;
+//    }
+
+    public EventCategory getEventCategory() {
+        return eventCategory;
     }
 
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
     }
 
     public Boolean getRegistrationNeeded() {

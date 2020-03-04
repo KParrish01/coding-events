@@ -3,6 +3,10 @@ package org.launchcode.codingevents.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +16,11 @@ public class EventCategory extends AbstractEntity {
 //    @GeneratedValue
 //    private int id;
 
+    @Size(min=2, message="Name must be at least 2 characters long.")
     private String name;
+
+    @OneToMany(mappedBy = "eventCategory")
+    private final List<Event> events = new ArrayList<>();
 
     public EventCategory(int id, String name) {
 //        this.id = id;
@@ -32,6 +40,10 @@ public class EventCategory extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Event> getEvents() {
+        return events;
     }
 
     @Override

@@ -21,7 +21,9 @@ public abstract class AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractEntity that = (AbstractEntity) o;
+//        AbstractEntity entity = (AbstractEntity) o;     // Hank's version
         return id == that.id;
+//        return id == entity.id;                         // Hank's version
     }
 
     @Override

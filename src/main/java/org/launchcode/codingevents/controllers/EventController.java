@@ -1,8 +1,10 @@
 package org.launchcode.codingevents.controllers;
 
+import org.launchcode.codingevents.data.EventCategoryRepository;
 import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.data.EventRepository;
 import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+//import static com.sun.beans.introspect.PropertyInfo.Name.required;
 
 /**
  * Created by Chris Bay
@@ -23,21 +28,36 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private EventCategoryRepository eventCategoryRepository;
+
     // EventRepository makes available via CrudRepository: findAll, save, findById
 
 //    private static List<Event> events = new ArrayList<>(); // that's how we stored data before we had EventData class
 
     // adds typed in events to the list of events:
     @GetMapping
-    public String displayAllEvents(Model model) {
+    public String displayEvents(@RequestParam(required = false) Integer categoryId, Model model) {
 //        List<String> events = new ArrayList<>();
 //        events.add("Code with Pride");
 //        events.add("Another Fun Event");
 //        events.add("One More Awesome Event");
 //        events.add("Ohaha");
-        model.addAttribute("title", "All Events");
+        if (categoryId == null) {
+            model.addAttribute("title", "All Events");
 //        model.addAttribute("events", EventData.getAll());
-        model.addAttribute("events", eventRepository.findAll());
+            model.addAttribute("events", eventRepository.findAll());
+        } else {
+            Optional<EventCategory> result = eventCategoryRepository.findById(categoryId);
+            if (result.isEmpty()){
+                model.addAttribute("title", "Invalid Category ID: " + categoryId);
+            } else {
+                EventCategory category = result.get();
+                model.addAttribute("title", "Event in category: " + category.getName());
+                model.addAttribute("events", category.getEvents());
+            }
+//
+        }
         return "events/index"; // with model addition, file "events/index" needed to change (go look at it!)
     }
 
@@ -46,6 +66,7 @@ public class EventController {
     public String displayCreateEventForm(Model model) {
         model.addAttribute("title", "Create Event");
         model.addAttribute(new Event());
+        model.addAttribute("categories",eventCategoryRepository.findAll());
         return "events/create";
     }
 
