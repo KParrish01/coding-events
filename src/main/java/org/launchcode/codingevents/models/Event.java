@@ -3,6 +3,8 @@ package org.launchcode.codingevents.models;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -27,7 +29,7 @@ public class Event extends AbstractEntity {                               // Cla
 //    @Email(message = "Invalid email: Try again!")
 //    private String contactEmail;
 
-    @OneToOne (cascade = CascadeType.ALL)  // mappes foreign key one way from Event to EventDetails (can be one-directional, or can be set up in EventDetails secondarily to go both ways)
+    @OneToOne (cascade = CascadeType.ALL)  // maps foreign key one way from Event to EventDetails (can be one-directional, or can be set up in EventDetails secondarily to go both ways)
     @Valid
     @NotNull
     private EventDetails eventDetails;
@@ -36,6 +38,9 @@ public class Event extends AbstractEntity {                               // Cla
     @ManyToOne
     @NotNull(message = "Category is required.")
     private EventCategory eventCategory;
+
+    @ManyToMany
+    private final List<Tag> tags = new ArrayList<>();
 
     //Below field from exercise 13.5. (1 of 4)
     @NotBlank(message="Location must be entered!")
@@ -100,7 +105,6 @@ public class Event extends AbstractEntity {                               // Cla
 //        this.description = description;
 //    }
 
-
 //    public int getId() {
 //        return id;
 //    }
@@ -128,6 +132,15 @@ public class Event extends AbstractEntity {                               // Cla
 
     public void setEventCategory(EventCategory eventCategory) {
         this.eventCategory = eventCategory;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    // To allow to add tags without accessing our collection or getting into guts how tags are stored:
+    public void addTag(Tag tag){
+        this.tags.add(tag);
     }
 
     public Boolean getRegistrationNeeded() {

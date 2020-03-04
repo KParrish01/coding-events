@@ -61,5 +61,16 @@
 </table>
 <!--</ul>-->
 
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Event Name - From Exercise 18.5.1. (they removed all of the above!)</th>
+    </tr>
+    </thead>
+    <tr th:each="event : ${events}">
+        <td><a th:href="'/events/detail?eventId=' + ${event.id}" th:text="${event.name}"></a></td>
+    </tr>
+</table>
+
 </body>
 </html>

@@ -112,6 +112,24 @@ public class EventController {
         return "redirect:/events";
     }
 
+    // This showed up in code for Chapter 18.5.1. when tags were added to code:
+
+    @GetMapping("detail")
+    public String displayEventDetails(@RequestParam Integer eventId, Model model) {
+
+        Optional<Event> result = eventRepository.findById(eventId);
+
+        if (result.isEmpty()) {
+            model.addAttribute("title", "Invalid Event ID: " + eventId);
+        } else {
+            Event event = result.get();
+            model.addAttribute("title", event.getName() + " Details");
+            model.addAttribute("event", event);
+        }
+
+        return "events/detail";
+    }
+
 ///>>>>******* THIS NEEDS FIXING: Exercise 12.5.: How to feed 'int id'  in here from 'events/index' ????******<<<<<:
 //    @GetMapping("edit/{eventId}")
 //    @GetMapping("edit/{eventId=event.id}")
