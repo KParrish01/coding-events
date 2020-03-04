@@ -3,8 +3,11 @@ package org.launchcode.codingevents.controllers;
 import org.launchcode.codingevents.data.EventCategoryRepository;
 import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.data.EventRepository;
+import org.launchcode.codingevents.data.TagRepository;
 import org.launchcode.codingevents.models.Event;
 import org.launchcode.codingevents.models.EventCategory;
+import org.launchcode.codingevents.models.Tag;
+import org.launchcode.codingevents.models.dto.EventTagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +33,9 @@ public class EventController {
 
     @Autowired
     private EventCategoryRepository eventCategoryRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     // EventRepository makes available via CrudRepository: findAll, save, findById
 
@@ -125,9 +131,43 @@ public class EventController {
             Event event = result.get();
             model.addAttribute("title", event.getName() + " Details");
             model.addAttribute("event", event);
+            // Added in 18.5.5. video about minute 25:
+            model.addAttribute("tags", event.getTags());
         }
 
         return "events/detail";
+    }
+
+    // responds to requests /events/add-tag?eventID=13
+    @GetMapping("add-tag")
+    public String displayAddTagForm(@RequestParam Integer eventId, Model model){
+        Optional<Event> result = eventRepository.findById(eventId);
+        Event event = result.get();
+        model.addAttribute("title","Add Tag to: " + event.getName());
+        model.addAttribute("tags", tagRepository.findAll());
+//        model.addAttribute("event", event);               //        model.addAttribute("event", event);
+//        model.addAttribute("eventTag",new EventTagDTO()); // needed to be replaced with below so th:field="@{eventTag.event} isn't null
+        EventTagDTO eventTag = new EventTagDTO();  // needed to be added so in add-tag.html th:field="@{eventTag.event}" isn't empty (instead of passing "new EventTagDTO() in directly)
+        eventTag.setEvent(event);
+        model.addAttribute("eventTag", eventTag);
+        return "events/add-tag.html";
+    }
+
+    //handler for above:
+    @PostMapping("add-tag")
+    public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTag,
+                                    Errors errors,
+                                    Model model) {
+        if (!errors.hasErrors()){
+            Event event = eventTag.getEvent();
+            Tag tag = eventTag.getTag();
+            if (!event.getTags().contains(tag)){
+                event.addTag(tag);
+                eventRepository.save(event);  // We need to save it so hibernate can update MySQL table: just because we save it in Java doesn't mean it saves automatically in table. Also: hibernate is smart enough to not save same twice, if change didn't make difference for table
+            }
+            return "redirect:detail?eventId=" + event.getId();
+        }
+        return "redirect:add-tag";  //we're not dealing here with error handling for time's sake, just sending back to add-tag form
     }
 
 ///>>>>******* THIS NEEDS FIXING: Exercise 12.5.: How to feed 'int id'  in here from 'events/index' ????******<<<<<:
