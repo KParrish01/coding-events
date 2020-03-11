@@ -1,9 +1,6 @@
 package org.launchcode.codingevents.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +16,9 @@ public class EventCategory extends AbstractEntity {
     @Size(min=2, message="Name must be at least 2 characters long.")
     private String name;
 
-    @OneToMany(mappedBy = "eventCategory")
+//    @OneToMany(mappedBy = "eventCategory")
+    @OneToMany                                    //  These two lines: Other way to achieve same as @OneToMany(mappedBy= "eventCategory" - disadvantage, we need to know column name in MySQL (and need two lines)
+    @JoinColumn(name="event_category_id")         //  These two lines: Other way to achieve same as @OneToMany(mappedBy= "eventCategory" - disadvantage, we need to know column name in MySQL (and need two lines)
     private final List<Event> events = new ArrayList<>();
 
     public EventCategory(int id, String name) {
